@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+{#    <script src="{% static 'js/twitch.min.js' %}"></script>#}
+
+</head>
+<body>
+<p>Hey it works</p>
+<a href="{% url 'register' %}">REGISTER</a>
+<img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" class="twitch-connect" href="#" />
+{% block form %}{% endblock %}
+</body>
+</html>
