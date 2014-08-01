@@ -1,3 +1,4 @@
+// Need to clean up the formatting on this file - PyCharm has this built in
 $(function () {
 Highcharts.setOptions({
 colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9'],
