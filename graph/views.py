@@ -1,11 +1,33 @@
+import json
 from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.datetime_safe import datetime
+from django.views.decorators.csrf import csrf_exempt
+from graph.models import Tweet
 from graph.templatetags.forms import EmailUserCreationForm
 from twitchier import settings
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 # Create your views here.
 
 
+
+@csrf_exempt
+def tweet(request):
+    tweeter = Tweet.objects.filter(created=datetime.now)
+    collection = []
+    for tweets in tweeter:
+        collection.append({
+            'name': tweets.tweeted,
+            'created': tweets.created,})
+
+
+    return HttpResponse(
+                json.dumps(collection, cls=DjangoJSONEncoder),
+                content_type='application.json'
+           )
 
 
 def register(request):

@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'graph.views.home', name='home'),
     url(r'^register/$', 'graph.views.register', name='register'),
+    url(r'tweet/$','graph.views.tweet', name='tweet'),
 )
