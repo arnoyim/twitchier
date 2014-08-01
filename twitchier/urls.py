@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^$', 'graph.views.home', name='home'),
     url(r'^register/$', 'graph.views.register', name='register'),
     url(r'tweet/$','graph.views.tweet', name='tweet'),
+    url(r'top_tweet/$','graph.views.top_tweet', name='top_tweet'),
 )

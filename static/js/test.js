@@ -1,4 +1,7 @@
 $(function () {
+Highcharts.setOptions({
+colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
+});
     $.ajax({
         url: 'tweet/',
         type: "GET",
@@ -87,5 +90,122 @@ $(function () {
             }]
         });
     });
-    
+
+    $(function () {
+    var tweet_list = {};
+    var tweet_data = [];
+    var newList = [];
+//    arr = newList.sort(function(a,b) {
+//        return a[1] > b[1];
+//    });
+//    keys = Object.keys(tweet_list);
+//          len = keys.length;
+//
+//          keys.sort();
+//
+//          for (i = 0; i < len; i++)
+//          {
+//              k = keys[i];
+//              alert(k + ':' + tweet_list[k]);
+//          }
+    newList.sort(function(index){
+        return function(a,b){
+            return (a[index] === b[index]? 0: (a[index] < b[index] ? -1: 1))
+        }
+    });
+
+    $.ajax({
+        url: 'top_tweet/',
+        type: "GET",
+        success: function(data) {
+            console.log(data);
+            for (var i= 0; i < data.length; i++) {
+                var tweeted = data[i].tweeted;//
+//                  tweet_list.push(tweeted)
+                if (tweet_list.hasOwnProperty(tweeted)){
+                    tweet_list[tweeted] +=1
+
+                }
+                else{
+                   tweet_list[tweeted] = 1
+                }
+
+
+
+            }
+        console.log(tweet_list);
+        },
+        error: function(data){
+            console.log(data);
+        }
+    }).complete(function(){
+//        for (var j in tweet_list) tweet_data.push(j) ;
+//        var newList = [];
+          for(var key in tweet_list){
+              var nestedList = [key, tweet_list[key]];
+              newList.push(nestedList);
+
+
+          $('#container2').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: 'Trending<br>for<br>Twitch',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 50
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            innerSize: '50%',
+            data: [newList[0], newList[1], newList[2], newList[3], newList[4]]
+
+//                [
+//                ['Firefox',   45.0],
+//                ['IE',       26.8],
+//                ['Chrome', 12.8],
+//                ['Safari',    8.5],
+//                ['Opera',     6.2]
+//                {
+//                    name: 'Others',
+//                    y: 0.7,
+//                    dataLabels: {
+//                        enabled: false
+//                    }
+//                }
+//            ]
+        }]
+    });
+          }
+//        var tester = newList[1];
+//        console.log(tester);
+
+      });
+
+
+});
+
 });

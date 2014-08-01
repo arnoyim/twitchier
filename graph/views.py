@@ -1,5 +1,6 @@
 import json
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.datetime_safe import datetime
@@ -8,26 +9,46 @@ from graph.models import Tweet
 from graph.templatetags.forms import EmailUserCreationForm
 from twitchier import settings
 from django.core.serializers.json import DjangoJSONEncoder
-
-
+from datetime import datetime, timedelta
+import time
 # Create your views here.
-
+minute = datetime.now() - timedelta(seconds= 60)
 
 
 @csrf_exempt
 def tweet(request):
-    tweeter = Tweet.objects.filter(created=datetime.now)
+
+    tweeter = Tweet.objects.all()
     collection = []
+
     for tweets in tweeter:
         collection.append({
-            'name': tweets.tweeted,
+            'tweeted': tweets.tweeted,
             'created': tweets.created,})
+
 
 
     return HttpResponse(
                 json.dumps(collection, cls=DjangoJSONEncoder),
                 content_type='application.json'
            )
+@csrf_exempt
+def top_tweet(request):
+# num_tweet=Count('tweeted')).order_by('num_tweet'
+    tweeter = Tweet.objects.all()
+    print "what"
+    collection = []
+
+    for tweets in tweeter:
+        collection.append({
+            'tweeted': tweets.tweeted
+            })
+
+    return HttpResponse(
+                json.dumps(collection),
+                content_type='application.json'
+           )
+
 
 
 def register(request):
