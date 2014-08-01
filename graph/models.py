@@ -13,6 +13,7 @@ class User(AbstractUser):
 
 class Tweet(models.Model):
     tweeted = models.CharField(max_length=200)
+    # DateTimeField has an auto_add_now attribute to do this defaulting for you, should remove blank=True
     created = models.DateTimeField(default=datetime.now, blank=True)
 
     def __unicode__(self):
