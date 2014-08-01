@@ -1,7 +1,13 @@
 $(function () {
 Highcharts.setOptions({
-colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
+colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9'],
+chart: {plotBackgroundColor: 'rgba(255, 255, 255, 0)'}
 });
+
+
+
+
+
     $.ajax({
         url: 'tweet/',
         type: "GET",
@@ -35,9 +41,9 @@ colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
                         var series = this.series[0];
                         setInterval(function() {
                             var x = (new Date()).getTime(), // current time
-                                y = tweetName;
+                                y = Math.random();
                             series.addPoint([x, y], true, true);
-                        }, 1000*60);
+                        }, 1000);
                     }
                 }
             },
@@ -95,9 +101,8 @@ colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
     var tweet_list = {};
     var tweet_data = [];
     var newList = [];
-//    arr = newList.sort(function(a,b) {
-//        return a[1] > b[1];
-//    });
+
+
 //    keys = Object.keys(tweet_list);
 //          len = keys.length;
 //
@@ -139,11 +144,14 @@ colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
             console.log(data);
         }
     }).complete(function(){
-//        for (var j in tweet_list) tweet_data.push(j) ;
-//        var newList = [];
+//
+          newList.sort(function(a,b) {return a[1] - b[1]});
           for(var key in tweet_list){
               var nestedList = [key, tweet_list[key]];
               newList.push(nestedList);
+              newList.sort(function(a,b) {return - (a[1] - b[1])});
+
+
 
 
           $('#container2').highcharts({
@@ -179,7 +187,7 @@ colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: 'Top five tweeted',
             innerSize: '50%',
             data: [newList[0], newList[1], newList[2], newList[3], newList[4]]
 
@@ -200,6 +208,8 @@ colors: ['#7cd5ec', '#FF0000', '#90ed7d', '#0971B2', '#8085e9']
         }]
     });
           }
+
+
 //        var tester = newList[1];
 //        console.log(tester);
 
