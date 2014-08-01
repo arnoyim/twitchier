@@ -14,6 +14,7 @@ import time
 # Create your views here.
 minute = datetime.now() - timedelta(seconds= 60)
 
+# Overall you should clean up your formatting on this page, line breaks, returns, etc
 
 @csrf_exempt
 def tweet(request):
@@ -21,19 +22,21 @@ def tweet(request):
     tweeter = Tweet.objects.all()
     collection = []
 
+    # Could write a list comprehension here to clean this up
     for tweets in tweeter:
         collection.append({
             'tweeted': tweets.tweeted,
             'created': tweets.created,})
 
 
-
+    # I think content_type is supposed to be 'application/json'
     return HttpResponse(
                 json.dumps(collection, cls=DjangoJSONEncoder),
                 content_type='application.json'
            )
 @csrf_exempt
 def top_tweet(request):
+    # Check out Django queryset's annotate for this one - Winnie also got this working if you want to ask for help
 # num_tweet=Count('tweeted')).order_by('num_tweet'
     tweeter = Tweet.objects.all()
     print "what"
