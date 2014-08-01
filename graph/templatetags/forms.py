@@ -4,7 +4,8 @@ from graph.models import User
 
 __author__ = 'Arno'
 
-
+# Not sure what this is doing inside of the templatetags folder
+# Should be in a forms.py file
 
 class EmailUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
